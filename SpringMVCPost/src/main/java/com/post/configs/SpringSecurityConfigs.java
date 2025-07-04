@@ -109,9 +109,9 @@ public class SpringSecurityConfigs {
     public Cloudinary cloudinary() {
         Cloudinary cloudinary
                 = new Cloudinary(ObjectUtils.asMap(
-                        "cloud_name", "dmz9kuzue",
-                        "api_key", "961193598266337",
-                        "api_secret", "yWKRKcoNtsmwsdpYhVbosl5X8Ng",
+                        "cloud_name", "your cloudname",
+                        "api_key", "api key",
+                        "api_secret", "api secret",
                         "secure", true));
 
         return cloudinary;
@@ -122,8 +122,8 @@ public class SpringSecurityConfigs {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("phongkhamsaigoncare@gmail.com");
-        mailSender.setPassword("picuqcqvzsvgplyk");
+        mailSender.setUsername("yourmail");
+        mailSender.setPassword("yourpassword");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
