@@ -102,12 +102,8 @@ GitHub Repository: [https://github.com/nglhongphuong/Alumni-Social-Network-proje
 
 To support the development of this project, the following resources were used for learning and integration:
 
-- **Firebase Realtime Database**:  
-  [Fireship – Firebase Realtime Database](https://www.youtube.com/watch?v=domt_Sx-wTY&t=6842s)
-
 - **Gemini AI Integration (Gemini 3.5)**:
   - [Gemini for Developers – Official Guide](https://ai.google.dev/gemini-api/docs?hl=en)
-  - [Video](https://www.youtube.com/watch?v=nCEsIbfoLJM&t=800s)
 
 > These resources were essential during the research and implementation phases of the project.
 
