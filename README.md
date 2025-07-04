@@ -33,7 +33,7 @@ This project was developed as the final assignment for the *Java Web Development
   - Frontend developed using ReactJS
   - Integrated with Google Mail API to send email notifications
   - Real-time messaging via Firebase Realtime Database
-  - Gemini 3.5 integrated as a virtual assistant
+  - Gemini 22.5 integrated as a virtual assistant
 
 - **API Testing**:
   - Postman Collection: [Test APIs here](https://www.postman.com/demo-api-3306/phuong-11-testapi/collection/n62hzyc/social-post)
@@ -102,7 +102,7 @@ GitHub Repository: [https://github.com/nglhongphuong/Alumni-Social-Network-proje
 
 To support the development of this project, the following resources were used for learning and integration:
 
-- **Gemini AI Integration (Gemini 3.5)**:
+- **Gemini AI Integration (Gemini 2.5)**:
   - [Gemini for Developers – Official Guide](https://ai.google.dev/gemini-api/docs?hl=en)
 
 > These resources were essential during the research and implementation phases of the project.
