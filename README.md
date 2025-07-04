@@ -55,16 +55,15 @@ This project was developed as the final assignment for the *Java Web Development
 ![ERD Diagram](https://github.com/nglhongphuong/Alumni-Social-Network-project/blob/main/img/ERD.png)
 
 ---
-
 ## 5. Admin Module Demo (Spring MVC + Thymeleaf + Hibernate)
 
-[Watch Demo on YouTube](https://youtu.be/fj-yfx3WiE4?si=tqq54IhnOdYZGuIr)
+[![Watch Admin Demo](https://img.youtube.com/vi/fj-yfx3WiE4/hqdefault.jpg)](https://youtu.be/fj-yfx3WiE4?si=tqq54IhnOdYZGuIr)
 
 ---
 
 ## 6. Client Module Demo (ReactJS Frontend)
 
-[Watch Demo on YouTube](https://youtu.be/JY3LiaNhc7Q?si=Eeba_OBlJvk4C4-I)
+[![Watch Client Demo](https://img.youtube.com/vi/JY3LiaNhc7Q/hqdefault.jpg)](https://youtu.be/JY3LiaNhc7Q?si=Eeba_OBlJvk4C4-I)
 
 ---
 
