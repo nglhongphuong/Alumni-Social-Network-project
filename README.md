@@ -18,21 +18,23 @@ This project was developed as the final assignment for the *Java Web Development
 - [Source Code](#-source-code)
 
 ---
-
 ## 1. Technologies Used
 
-- **Admin Module**:  
-  Developed using **Spring MVC Framework**, including:
-  - Function management
-  - Statistics and reporting
-  - Role-based authentication and authorization via **Spring Security**
+- **Admin Module**:
+  - Developed using **Spring MVC Framework**
+  - Implements management features, statistics, and reporting
+  - Uses **Spring Security** for authentication and role-based access control
+  - Uses **Hibernate** for database interaction (Database-First approach)
 
-- **Client Module**:  
-  - Backend APIs: Developed as **RESTful APIs** using Spring MVC  
-  - Frontend: Developed using **ReactJS**  
-  - **Google Mail API**: Integrated to send email notifications to users  
-  - **Firebase Realtime Database**: For real-time messaging between users  
-  - **Gemini 3.5**: Integrated as a virtual assistant to support users
+- **Client Module**:
+  - Backend APIs: Built as **RESTful APIs** using **Spring MVC** and standard Spring modules
+  - Frontend: Developed using **ReactJS**
+  - Integrated with **Google Mail API** to send notification emails
+  - Real-time messaging via **Firebase Realtime Database**
+  - **Gemini 3.5** integrated as a virtual assistant
+
+- **API Testing**:
+  - Postman Collection: [Test APIs here](https://www.postman.com/demo-api-3306/phuong-11-testapi/collection/n62hzyc/social-post)
 
 ---
 
