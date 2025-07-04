@@ -73,8 +73,7 @@ This project was developed as the final assignment for the *Java Web Development
 
 1. **Clone the project to your machine**
 
-2. Open the `post_db.sql` file and import it into your database system to initialize the database  
-   ![imgae](https://github.com/nglhongphuong/Alumni-Social-Network-project/blob/main/img/run.png)
+2. Open the `post_db.sql` file and import it into your database system to initialize the database (MySQL) 
 
 3. Default admin login credentials:  
    **2251010077phuong@ou.edu.vn / 123456**
@@ -82,7 +81,7 @@ This project was developed as the final assignment for the *Java Web Development
 4. Open the project in **NetBeans** and run the SpringMVC source code:  
    - Make sure to update the database password in `database.properties`  
    - Click the **Run Project** button in NetBeans  
-   _(*Screenshot will be added later)_
+     ![imgae](https://github.com/nglhongphuong/Alumni-Social-Network-project/blob/main/img/run.png)
 
 5. Navigate to the `postWeb` folder to run the ReactJS client:  
    ```bash
