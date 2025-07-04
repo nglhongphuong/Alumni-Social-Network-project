@@ -1,0 +1,62 @@
+.gemini-sidebar {
+    height: 100vh;
+    background-color: #1c1c1c; /* nền đen đậm */
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: width 0.3s ease;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    color: #fff; /* chữ trắng */
+}
+
+.gemini-sidebar.expanded {
+    width: 230px;
+}
+
+.gemini-sidebar.collapsed {
+    width: 70px;
+}
+
+.sidebar-menu-icon {
+    font-size: 2rem;
+    cursor: pointer;
+    color: #fff; /* icon trắng */
+    margin-bottom: 1.5rem;
+}
+
+.new-chat,
+.recent-entry,
+.bottom-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    color: #fff;
+}
+
+.new-chat:hover,
+.recent-entry:hover,
+.bottom-item:hover {
+    background-color: #333; /* nền hover tối hơn */
+}
+
+.recent {
+    margin-top: 2rem;
+}
+
+.recent-title {
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+    color: #aaa; /* màu xám sáng */
+}
+
+.gemini-sidebar i {
+    color: white;
+}

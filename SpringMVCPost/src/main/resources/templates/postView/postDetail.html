@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Post Card</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Bootstrap Icons (nếu cần dùng icon) -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        <style>
+            .comment-avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        </style>
+    </head>
+    <body>
+        <div th:replace="base :: header"></div>
+        <main class="container">
+            <!--    <h1>DETAIL POST</h1>-->
+            <div class="container mt-4">
+                <!--            Bài viết -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between border-top">
+                        <div>
+                            <strong th:text="${post.userId.name}">Tên người đăng</strong> . 
+                            <small th:text="${#dates.format(post.createdAt, 'dd/MM/yyyy')}">Ngày đăng</small>
+
+                        </div>
+                        <strong th:text="${post.visibility}"></strong>
+
+                    </div>
+                    <img class="card-img-top" th:src="${post.image}" alt="Ảnh bài viết" th:if="${id!=null}">
+
+                    <div class="card-body">
+                        <p class="card-text" th:text="${post.content}">Nội dung bài viết</p>
+                    </div>
+
+                    <!--                Like / Comment / Share -->
+                    <div class="card-body d-flex justify-content-between border-top">
+                        <div class="col-4">
+                            Tất cả <small th:text="${countAllReactions[post.id]}">0</small>
+                            <span data-bs-toggle="tooltip" th:attr="data-bs-title=${#strings.arrayJoin(userReactType['LIKE']?.![name], ', ') ?: 'Không ai'}">👍</span> 
+                            <small th:text="${countReactDt['LIKE']?:0}">0</small>
+
+                            <span data-bs-toggle="tooltip" th:attr="data-bs-title=${#strings.arrayJoin(userReactType['HAHA']?.![name], ', ') ?: 'Không ai'}">😂</span> 
+                            <small th:text="${countReactDt['HAHA']?:0}">0</small>
+
+                            <span data-bs-toggle="tooltip" th:attr="data-bs-title=${#strings.arrayJoin(userReactType['WOW']?.![name], ', ') ?: 'Không ai'}">😲</span>  
+                            <small th:text="${countReactDt['WOW']?:0}">0</small>
+
+                            <span data-bs-toggle="tooltip" th:attr="data-bs-title=${#strings.arrayJoin(userReactType['SAD']?.![name], ', ') ?: 'Không ai'}">😢</span>  
+                            <small th:text="${countReactDt['SAD']?:0}">0</small>
+
+                            <i data-bs-toggle="tooltip" th:attr="data-bs-title=${#strings.arrayJoin(userReactType['LOVE']?.![name], ', ') ?: 'Không ai'}">❤</i>️ 
+                            <small th:text="${countReactDt['LOVE']?:0}">0</small>
+
+                        </div>
+
+                        <!--                    <div class="col-4">
+                                                <a th:href="@{'/post/'+ ${post.id}+'/detail/reaction/'+${userId.id}}" 
+                                                   class="btn btn-warning">Update</a>
+                        
+                                                <a th:href="@{'/post/' + ${post.id} + '/detail/reaction/delete'(userId=${comment.userId.id})}" 
+                                                   th:onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger">Delete</a>
+                                            </div>-->
+
+                        <!--                    ====================  ADD REACTION ==================-->
+                        <div class ="col-4">
+                            <form th:action="@{'/post/' + ${post.id} + '/detail/add-reaction'}"
+                                  th:object="${reaction}" method="post" enctype="multipart/form-data">
+
+
+                                <select class="form-select" id="reactions" th:field="*{reactionType}">
+                                    <option th:each="m : ${reactionType}"
+                                            th:value="${m}" 
+                                            th:text="${m.displayName}"></option>
+                                </select>
+
+                                <select class="form-select" id="user" name="userReaction">
+                                    <option th:each="m : ${user}"
+                                            th:value="${m.id}" 
+                                            th:text="|${m.id}-${m.username}|">user</option>
+                                </select>
+
+
+                                <button type="submit" class="btn btn-info" title="Gửi"> Thêm reaction </button>
+                            </form>
+
+                            <!-- Nút Xóa reaction -->
+
+
+                            <form th:action="@{'/post/' + ${post.id} + '/detail/delete-reaction'}"
+                                  th:object="${reaction}" method="post" enctype="multipart/form-data" style="margin-top: 10px;">
+
+                                <select class="form-select" id="user" name="userReaction">
+                                    <option th:each="m : ${user}"
+                                            th:value="${m.id}" 
+                                            th:text="|${m.id}-${m.username}|">user</option>
+                                </select>
+
+
+                           <button type="submit" class="btn btn-danger">Xóa reaction</button>
+                            </form>
+
+                        </div>
+                        <div class="col-4 d-flex justify-content-end" ><a href="#commentSection">Bình luận (<span th:text=${countComments[post.id]}>7</span>)</a></div>
+
+                    </div>
+                    <!--======================= LIST COMMENT ==============-->
+
+                    <div class="card-body border-top" id="commentSection">
+                        <div th:each="c, iterStat : ${comments}" class="card-body d-flex justify-content-between border-top">
+                            <div class="col-6">
+                                <img th:src="@{${c.userId.avatar}}" class="comment-avatar me-2" alt="Avatar">
+                                <div>
+                                    <strong th:text = "${c.userId.name}">Tên người bình luận</strong>
+                                    <p class="mb-0" th:text="${c.content}">Nội dung bình luận</p>
+                                    <small class="text-muted" th:text = "${#dates.format(c.createdAt, 'dd/MM/yyyy')}">4 ngày</small>
+                                </div>
+
+                            </div>
+
+                            <div class="col-4 gap-2 p-4 d-flex justify-content-end">
+                                <a th:href="@{'/post/'+ ${post.id}+'/detail/'+${c.id}}"  class="btn btn-info">Update</a>
+
+                                <a th:href="@{'/post/'+ ${post.id}+'/detail/delete'(id=${c.id})}" th:onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <!--            ================== ADD COMMENT ==================-->
+                <div class="card-footer bg-light">
+                    <form th:action="@{'/post/' + ${post.id} + '/detail/add-comment'}"
+                          th:object="${comment}" method="post" enctype="multipart/form-data">
+
+                        <div class="d-flex align-items-center">
+                            <div class="col-md-3 mb-3">
+
+                                <label for="userId">Người dùng</label>
+                                <select class="form-select" id="user" name="user" th:field="*{userId}">
+                                    <option th:each="m : ${user}"
+                                            th:value="${m.id}" 
+                                            th:text="|${m.id}-${m.username}|">user</option>
+                                </select>
+
+
+                            </div>
+
+                            <div class="col-md-7 mb-3">
+                                <textarea class="form-control ms-3 mt-4" rows="1" id="content" th:field="*{content}" placeholder="Nhập bình luận..."></textarea>
+                            </div>
+
+                            <div class="col-md-2 mb-3 mt-4 d-flex justify-content-center">
+                                <input type="hidden"  th:field="*{id}">
+
+                                <!-- Nút gửi (biểu tượng) -->
+                                <button type="submit" class="btn btn-info" title="Gửi">
+                                    <span th:if="${comment.id == null}">Thêm comment</span> 
+                                    <span th:unless="${comment.id == null}">cập nhật comment</span> 
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+    <div th:replace="base :: footer"></div>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Kích hoạt tooltip -->
+    <script>
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+            new bootstrap.Tooltip(el);
+        });
+    </script>
+
+
+
+
+</body>
+</html>

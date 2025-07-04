@@ -1,0 +1,169 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý bài khảo sát</title>
+    <th:block th:replace="base :: styles"></th:block>
+</head>
+<body>
+    <div th:replace="base :: header"></div>
+    <main class="container">
+        <h1 style="text-align: center;">Quản lý bài khảo sát</h1>
+        <main class="container">
+            <form th:action="@{/surveypost/}" class="p-3 bg-light rounded shadow-sm">
+                <div class="row g-2 align-items-end">
+                    <!-- Tìm theo title  -->
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Từ khóa nội dung..." name="title">
+                    </div>
+                    <!-- Order -->
+                    <div class="col-md-2">
+                        <select class="form-select" name="order">
+                            <option value="desc">Mới nhất</option>
+                            <option value="asc">Cũ nhất</option>
+                        </select>
+                    </div>
+
+                    <!-- Từ ngày -->
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" name="startDate">
+                    </div>
+
+                    <!-- Đến ngày -->
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" name="endDate">
+                    </div>
+                </div>
+
+                <div class="row mt-2 g-2 align-items-end">
+                    
+                    <!-- Nút hành động -->
+                    <div class="col-md-6 text-end">
+                        <button type="submit" class="btn btn-primary me-2">Tìm kiếm</button>
+                        <a th:href="@{/surveypost/createSurvey}" class="btn btn-success">+ Thêm bài viết mới</a>
+                        
+                    </div>
+                </div>
+
+            </form>
+            <div class="table-responsive">
+                <table class="table table-bordered mt-3 align-middle text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Người đăng</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày kết thúc</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày cập nhật</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                            <th>Số lương câu hỏi</th>
+                            <th></th>
+                            
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="s, iterStat : ${surveys}">
+
+                            <td th:text="${iterStat.index + 1}">1</td>
+
+                            <!-- Người đăng -->
+                            <td th:text="${s.adminId != null ? s.adminId.user.username : 'Ẩn danh'}">Tên người đăng</td>
+
+                            <!-- Title -->
+                            <td th:text="${s.title}" class="text-start">Title</td>
+
+                            <!-- description -->
+                            <td th:text="${s.description}" class="text-start">Nội dung</td>
+
+                            <!-- Ngày bắt đầu -->
+                            <td th:text="${s.startDate}">01/01/2024</td>
+
+                            <!-- Ngày cập nhật -->
+                            <td th:text="${s.endDate}">02/01/2024</td>
+
+                            <!-- Ngày tạo -->
+                            <td th:text="${s.createdAt}">01/01/2024</td>
+
+                            <!-- Ngày cập nhật -->
+                            <td th:text="${s.updateAt}">02/01/2024</td>
+
+                            <!-- Trạng thái bình luận -->
+
+                            <td th:text="${s.status}">
+                                <span class="badge badge-success"></span>
+                            </td>
+                            <td>
+                            
+                                <div class="d-flex flex-column gap-2">
+                                     <a th:href="@{'/surveypost/' + ${s.id}}"  class="btn btn-info">Update</a>
+                               
+                                     <a th:href="@{/surveypost/delete(id=${s.id})}" th:onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger">Delete</a>
+                                </div>
+                            </td>
+                            <!-- Số option -->
+
+                            <td>
+                                <span th:text="${countQuestion[s.id]}">0</span>
+                            </td>
+                            
+                            <td>
+                                <a th:href="@{'/surveypost/'+${s.id}+'/responseOption'}">Tham gia khảo sát</a>
+                            </td>
+                           
+<!--th:href="@{/survey/{id}/detail(id=${p.id})}"-->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </main>
+     <div th:replace="base :: footer"></div>-->
+    <!--                <script th:src="@{/js/main.js}"></script>-->
+    <script>
+//        function deletePost(endpoint, id) {
+//            if (confirm("Bạn có muốn xóa?") === true) {
+//                fetch(`${endpoint}/${id}`, {
+//                    method: "delete"
+//                }).then(res => {
+//                    if (res.status === 204) {
+//                        alert("Delete Successful!");
+//                        location.reload();
+//                    } else {
+//                        alert("Error system!");
+//                    }
+//                });
+//            }
+//            
+//        }
+        function deleteSurvey(endpoint, id) {
+            if (confirm("Bạn có muốn xóa?")) {
+                fetch(`${endpoint}/${id}`, {
+                    method: "DELETE"
+                })
+                        .then(res => {
+                            if (res.status === 204) {
+                                alert("Xóa thành công!");
+                                location.reload(); // Hoặc redirect nếu cần
+                            } else {
+                                return res.text().then(msg => {
+                                    throw new Error(msg || "Có lỗi xảy ra!");
+                                });
+                            }
+                        })
+                        .catch(ex => {
+                            console.error("Delete error:", ex);
+                            alert("Lỗi hệ thống: " + ex.message);
+                        });
+            }
+        }
+
+
+    </script>
+</body>
+</body>
+</html>

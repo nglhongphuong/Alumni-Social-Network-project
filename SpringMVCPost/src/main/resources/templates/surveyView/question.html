@@ -1,0 +1,231 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Chi tiết bài khảo sát</title>
+    <th:block th:replace="base :: styles"></th:block>
+</head>
+<body>
+    <div th:replace="base :: header"></div>
+    <main class="container">
+        <h1 style="text-align: center">Chi tiết bài khảo sát</h1>
+
+        <div class="card" style="margin:0 auto; width:500px">
+
+            <div th:each="q, iterStat : ${questions}" class="card mb-3">
+                <div class="card-header d-flex justify-content-between">
+                    <h5 th:text="|Câu hỏi ${iterStat.index + 1}- ${q.responseType}|"></h5>
+                    <div>
+                        <a class="btn btn-warning" 
+                           th:href="@{'/surveypost/' + ${survey.id} + '/question/' + ${q.id}}" >
+                            Cập nhật</a>
+                        <!--                        <a th:href="@{/surveypost/question/delete(id=${q.id})}" th:onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger">Xóa</a>
+                        -->
+                        <a th:href="@{'/surveypost/'+ ${survey.id}+'/question/delete'(id=${q.id})}"
+                           onclick="return confirm('Bạn có muốn xóa ?')"
+                           class="btn btn-danger">Xóa</a>
+
+
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!--                    Nội dung câu hỏi-->
+                    <p th:text="${q.content}"></p>
+
+
+                    <!-- Container cho options  -->
+                    <div class="option-container" >
+                        <div class="option-container mt-2" th:switch="${q.responseType}">
+                            <ul>
+                                <li class="d-flex justify-content-between" 
+                                    th:each="opt : ${options}" th:if="${opt.questionId.id} == ${q.id}">
+                                    <span th:text="${opt.content}"></span>
+
+                                    
+                                    <div class="d-flex gap-2">
+                                    <a class="btn btn-outline-warning btn-sm" 
+                                       th:href="@{'/surveypost/' + ${survey.id} + '/question/'+${q.id} + '/option/' + ${opt.id}}">
+                                        Cập nhật</a>
+                                    <!--                        <a th:href="@{/surveypost/question/delete(id=${q.id})}" th:onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger">Xóa</a>
+                                    -->
+                                    <a th:href="@{'/surveypost/'+ ${survey.id}+ '/question/' +${q.id}+ '/option/delete'(id=${opt.id})}"
+                                       onclick="return confirm('Bạn có muốn xóa ?')"
+                                       class="btn btn-outline-danger btn-sm">Xóa</a>
+                                    </div>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+                    <!--                    <button type="button" class="btn btn-outline-success" th:onclick="'showAddOptionForm(' + ${q.id} + ')'">+ Thêm lựa chọn</button>-->
+                    <!--                    =========== ADD OPTION ================-->
+                    <div th:attr="id=${'addOptionCard-' + q.id}" class="card mt-3">
+                        <form th:action="@{'/surveypost/'+${survey.id}+'/question/'+${q.id}+'/add-option'}"
+                              method="post" th:object="${option}" enctype="multipart/form-data">
+                            <div class="mb-3">
+                                <label>Nội dung lựa chọn</label>
+                                <input type="text" class="form-control" th:field="*{content}">
+                            </div>
+
+                            <input type="hidden" th:field="*{id}">
+                            <button type="submit" class="btn btn-outline-success" >Lưu</button>
+                            
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!--            =========== ADD QUESTION ================-->
+
+
+            <button type="button" onclick="hideAddQuestionForm()" class="btn btn-secondary">Hủy thêm câu hỏi</button>
+            <div id="addQuestionCard" class="card mt-3">
+                <div class="card-header">Thêm câu hỏi mới</div>
+
+                <div class="card-body">
+
+                    <form th:action="@{'/surveypost/'+${survey.id}+'/question/add-question'}"
+                          method="post" th:object="${question}" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label>Nội dung câu hỏi</label>
+                            <input type="text" class="form-control" th:field="*{content}">
+                        </div>
+                        <div class="mb-3">
+                            <label>Loại câu trả lời</label>
+                            <select class="form-select" id="responseType" th:field="*{responseType}">
+                                <option th:each="r : ${responseTypes}"
+                                        th:value="${r}" 
+                                        th:text="${r.displayName}">responseType</option>
+                            </select>
+
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <input type="hidden" th:field="*{id}" />
+
+
+                            <button class="btn btn-info">
+                                <span th:if="${question.id == null}">Thêm câu hỏi</span>
+                                <span th:unless="${question.id == null}">Cập nhật câu hỏi</span>
+                            </button>
+                        </div>
+                        <button type="button" class="btn btn-outline-danger" >Xóa</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!--            <input type="hidden" th:field="*{id}">-->
+            <button type="submit" class="btn btn-success">Lưu tất cả những thay đổi</button>
+            </form>
+
+
+        </div>
+    </div>
+
+
+
+</main>
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let shouldShowForm = /*[[${showForm}]]*/ false;
+    if (shouldShowForm) {
+        showAddQuestionForm();
+    }
+    /*]]>*/
+</script>
+<script>
+    // Hiển thị form thêm câu hỏi
+    function showAddQuestionForm() {
+        document.getElementById("addQuestionCard").classList.remove("d-none");
+    }
+
+    // Ẩn form thêm câu hỏi
+    function hideAddQuestionForm() {
+        document.getElementById("addQuestionCard").classList.add("d-none");
+    }
+
+    // Hiển thị form thêm option riêng biệt (nếu dùng)
+    function showAddOptionForm(questionId) {
+        // Ẩn tất cả form add-option khác (nếu muốn)
+        document.querySelectorAll("[id^='addOptionCard-']").forEach(div => {
+            div.classList.add("d-none");
+        });
+
+        // Hiển thị form của câu hỏi cụ thể
+        const formDiv = document.getElementById("addOptionCard-" + questionId);
+        if (formDiv) {
+            formDiv.classList.remove("d-none");
+        }
+    }
+
+// Ẩn form thêm lựa chọn
+    function hideAddQuestionForm() {
+        document.getElementById("addOptionCard").classList.add("d-none");
+    }
+
+
+    // Hiển thị form chỉnh sửa câu hỏi
+    function editQuestion(questionId) {
+        const card = document.getElementById('question_' + questionId);
+        const editForm = document.getElementById('editForm_' + questionId);
+        card.classList.add('d-none');
+        editForm.classList.remove('d-none');
+    }
+
+    // Hủy chỉnh sửa câu hỏi
+    function cancelEdit(questionId) {
+        const card = document.getElementById('question_' + questionId);
+        const editForm = document.getElementById('editForm_' + questionId);
+        card.classList.remove('d-none');
+        editForm.classList.add('d-none');
+    }
+
+
+    // Xóa một ô nhập option
+    function removeOption(button) {
+        const div = button.parentNode;
+        div.remove();
+
+        // Sau khi xóa, cập nhật lại name="options[i].content" để index không bị nhảy
+        const container = document.getElementById("optionsContainer");
+        const inputs = container.querySelectorAll("input[name^='options']");
+        inputs.forEach((input, i) => {
+            input.name = `options[${i}].content`;
+        });
+    }
+
+    function validateForm() {
+        const responseType = document.getElementById("responseType").value;
+        const options = document.querySelectorAll('#optionsContainer input[type="text"]');
+
+        // Kiểm tra nếu là SINGLE_CHOICE hoặc MULTIPLE_CHOICE mà không có option nào
+        if ((responseType === "SINGLE_CHOICE" || responseType === "MULTIPLE_CHOICE")) {
+            let hasOption = false;
+
+            options.forEach(input => {
+                if (input.value.trim() !== "") {
+                    hasOption = true;
+                }
+            });
+
+            if (!hasOption) {
+                alert("Vui lòng thêm ít nhất một option cho câu hỏi dạng lựa chọn!");
+                return false; // Chặn gửi form
+            }
+        }
+
+        return true; // Cho phép gửi nếu hợp lệ
+    }
+</script>
+
+
+<div th:replace="base :: footer"></div>
+</body>
+</html>

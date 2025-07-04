@@ -1,0 +1,257 @@
+
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Tạo bài đăng thông báo</title>
+    <th:block th:replace="base :: styles"></th:block>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- head: below existing links -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@4.0.1/dist/css/multi-select-tag.min.css">
+    <!-- Bootstrap 5 JS (cho alert đóng) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+    <div th:replace="base :: header"></div>
+    <main class="container">
+        <div id="alertContainer"></div>
+        <h1 style="text-align: center">Tạo bài đăng</h1>
+        <div class="card" style="margin:0 auto; width:500px">
+            <div class="card-body">
+                <form id="invitationForm" method="post" th:action="@{/invitation/add-invitation}" th:object="${invitation}" enctype="multipart/form-data">
+                    <div class="mb-3 mt-3">
+                        <label for="title">Tiêu đề</label>
+                        <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="Nhập tiêu đề ..."  />
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="title">Nội dung</label>
+                        <textarea type="text" class="form-control" id="title" th:field="*{content}" placeholder="Nhập nội dung ..." rows="4"></textarea>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="admin">Người gửi</label>
+                        <select class="form-select" id="admin" th:field="*{adminId}">
+                            <option th:each="m : ${admin}"
+                                    th:value="${m.userId}" 
+                                    th:text="'ID: ' + ${m.userId} + ' - ' +${m.user.username}">user</option>
+                        </select>
+                    </div>
+                    <!-- Scope selection -->
+                    <div class="mb-3 mt-3">
+                        <label for="reciptientScore">Lọc nhóm</label>
+
+                        <select class="form-select" id="recipientScope" th:field="*{recipientScope}" onchange="onScopeChange()" name="recipientScope">
+                            <option th:each="m : ${recipientScope}"
+                                    th:value="${m}" 
+                                    th:text="${m.displayName}">reciptientScore</option>
+                        </select>
+                    </div>
+
+                    <!-- Role selection -->
+                    <div class="mb-3 mt-3" id="roleContainer" style="display: none;">
+                        <label for="roleSelect">Chọn vai trò</label>
+                        <select class="form-select" id="roleSelect" name="role" onchange="onRoleChange()">
+                            <option th:each="r : ${roles}" 
+                                    th:value="${r}" 
+                                    th:text="${r.displayName}"></option>
+                        </select>
+                    </div>
+
+                    <!-- User selection -->
+
+                    <div id="userContainer">
+                        <label for="userSelect">Người nhận</label>
+                        <select id="userSelect" name="userIds" class="form-select" multiple>
+                            <!-- Các option sẽ được tạo bằng JS -->
+                        </select>
+                    </div>
+
+                    <!-- Dữ liệu ẩn: tất cả user theo role -->
+                    <div id="userData" style="display:none;">
+                        <div th:each="entry : ${allUsersByRole}">
+                            <div th:attr="data-role=${entry.key}">
+                                <span th:each="u : ${entry.value}" 
+                                      th:attr="data-id=${u.id}, data-name=${u.username}"
+                                      th:text="${u.username}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" th:field="*{id}" />
+
+                    <div class="mb-3 mt-3">
+                        <button class="btn btn-info">
+                            <span th:if="${invitation.id == null}">Thêm bài viết</span>
+                            <span th:unless="${invitation.id == null}">Cập nhật bài viết</span>
+                        </button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </main>
+    <!-- End of <body> -->
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@4.0.1/dist/js/multi-select-tag.min.js"></script>
+
+    <script>
+                            function onScopeChange() {
+                                const scope = document.getElementById("recipientScope").value;
+                                console.log(scope);
+                                const roleContainer = document.getElementById("roleContainer");
+                                const userContainer = document.getElementById("userContainer");
+
+                                if (scope === "ROLE_GROUP") {
+                                    // Chỉ lọc theo role
+                                    roleContainer.style.display = "block";
+                                    userContainer.style.display = "none";
+                                } else {
+                                    // Trường hợp INDIVIDUAL hoặc CUSTOMER
+                                    roleContainer.style.display = "none";
+                                    userContainer.style.display = "block";
+
+                                    // Cho INDIVIDUAL, CUSTOMER → hiển thị all user
+                                    loadUsersForAllRoles();               // Load toàn bộ user
+                                    const selectedRole = document.getElementById("roleSelect").value;
+                                    reloadMultiSelect(selectedRole);         // Gắn lại multi-select với giới hạn nếu là INDIVIDUAL
+                                }
+                            }
+
+                            document.getElementById("roleSelect").addEventListener("change", function () {
+                                const selectedRole = this.value;
+                                const userContainer = document.getElementById("userContainer");
+                                const userSelect = document.getElementById("userSelect");
+
+                                // Hiển thị container
+                                userContainer.style.display = "block";
+
+                                // Xóa các option cũ
+                                userSelect.innerHTML = "";
+
+                                // Tìm các thẻ span đúng với role được chọn
+                                const roleSpans = document.querySelectorAll(`#userData [data-role="${selectedRole}"] span`);
+
+                                roleSpans.forEach(span => {
+                                    const id = span.getAttribute("data-id");
+                                    const name = span.getAttribute("data-name");
+
+                                    // Nếu có id và name thì thêm vào select
+                                    if (id && name) {
+                                        const option = document.createElement("option");
+                                        option.value = id;
+                                        option.text = name;
+                                        userSelect.appendChild(option);
+                                    }
+                                });
+                            });
+
+
+                            function onRoleChange() {
+                                const role = document.getElementById("roleSelect").value;
+                                console.log("🔍 Đang xử lý role:", role);
+                                const userContainer = document.getElementById("userContainer");
+                                const userSelect = document.getElementById("userSelect");
+                                userContainer.style.display = "block";
+                                // Clear old options
+                                userSelect.innerHTML = "";
+
+                                // Lấy dữ liệu user từ div ẩn
+                                // Ụ CODE SAI ĐÂY R
+                                const roleDivs = document.querySelectorAll(`#userData [data-role="${role}"] span`);
+                                console.log(`✅ Tìm thấy ${roleDivs.length} user cho role: ${role}`);
+                                roleDivs.forEach(span => {
+                                    const id = span.getAttribute("data-id");
+                                    const name = span.getAttribute("data-name");
+                                    console.log(`➡️ User ${index + 1}:`, {id, name});
+                                    const option = document.createElement("option");
+                                    option.value = id;
+                                    option.text = name;
+                                    userSelect.appendChild(option);
+                                });
+                                //
+
+                                console.log("🔁 Gọi lại reloadMultiSelect với ROLE_GROUP");
+                                reloadMultiSelect(role);
+                                loadUsersForAllRoles();
+                            }
+
+                            let tagSelector;
+
+
+
+                            function loadUsersForAllRoles() {
+                                const userSelect = document.getElementById('userSelect');
+                                userSelect.innerHTML = ''; // Clear old options
+
+                                const allUsers = document.querySelectorAll('#userData span[data-id][data-name]');
+                                allUsers.forEach(user => {
+                                    const option = document.createElement('option');
+                                    option.value = user.getAttribute('data-id');
+                                    option.textContent = user.getAttribute('data-name');
+                                    userSelect.appendChild(option);
+                                });
+                            }
+
+                            function reloadMultiSelect(role) {
+                                // Xóa multi-select cũ
+                                if (tagSelector)
+                                    tagSelector.destroy();
+
+                                const config = {
+                                    required: true,
+                                    placeholder: 'Search tags',
+                                    onChange: function (selected) {
+                                        console.log('Selection changed:', selected);
+                                    }
+                                };
+
+                                if (role === 'INDIVIDUAL') {
+                                    config.maxSelection = 1;
+                                }
+
+                                // Gắn lại MultiSelectTag
+                                tagSelector = new MultiSelectTag('userSelect', config);
+                            }
+
+
+                            // Init ban đầu
+                            window.addEventListener('DOMContentLoaded', function () {
+                                loadUsersForAllRoles();
+                                reloadMultiSelect('ROLE_LECTURER'); // Hoặc vai trò mặc định
+                            });
+                            function validateAndSubmit(surveyId) {
+                                const title = document.querySelector('[name="title"]').value.trim();
+                                const content = document.querySelector('[name="content"]').value.trim();
+                                const recipientScope = document.querySelector('[name="recipientScope"]').value.trim();
+                                const alertContainer = document.getElementById('alertContainer');
+                                alertContainer.innerHTML = ''; // Xoá thông báo cũ
+
+                                if (!title || !content || !recipientScope) {
+                                    alertContainer.innerHTML = `
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>⚠️ Cảnh báo!</strong> Vui lòng nhập đầy đủ thông tin trước khi tiếp tục.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+                        </div>
+                        `;
+                                    return;
+
+                                }
+
+                                alertContainer.innerHTML = `
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        ✅ <strong>Thành công!</strong> Đang chuyển đến trang thêm câu hỏi...
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+                        </div>
+                        `;
+                                // Đợi 2 giây rồi submit form
+                                setTimeout(() => {
+                                    document.getElementById('invitationForm').submit();
+                                }, 2000);
+
+                            }
+
+    </script>
+
+    <div th:replace="base :: footer"></div>
+</body>
+</html>

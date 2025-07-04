@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+  <!-- Define Persistence Unit -->
+  <persistence-unit name="my_persistence_unit">
+    <class>com.post.pojo.Lecturer</class>
+    <class>com.post.pojo.Surveypost</class>
+    <class>com.post.pojo.Comment</class>
+    <class>com.post.pojo.Timeout</class>
+    <class>com.post.pojo.Post</class>
+    <class>com.post.pojo.Alumni</class>
+    <class>com.post.pojo.Responseoption</class>
+    <class>com.post.pojo.Reaction</class>
+    <class>com.post.pojo.Surveyquestion</class>
+    <class>com.post.pojo.Admin</class>
+    <class>com.post.pojo.Invitationpost</class>
+    <class>com.post.pojo.User</class>
+    <class>com.post.pojo.Surveyoption</class>
+  </persistence-unit>
+</persistence>

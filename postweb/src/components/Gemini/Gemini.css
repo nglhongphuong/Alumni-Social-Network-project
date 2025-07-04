@@ -1,0 +1,28 @@
+.gemini-background {
+  background-color: #f9efde;
+  width: 100vw;
+  min-height: 120vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  margin: 0;
+  padding: 0;
+}
+
+.gemini-container {
+  position: fixed;
+  width: 80vw;
+  height: 90vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  margin-left: 15px;
+  /* khoảng cách với sidebar (điều chỉnh theo chiều rộng sidebar của bạn) */
+  margin-top: 0px;
+  border-radius: 12px;
+  display: flex;
+  overflow: hidden;
+  color: white;
+  font-size: 14px;
+}

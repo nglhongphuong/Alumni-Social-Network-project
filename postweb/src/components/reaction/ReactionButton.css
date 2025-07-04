@@ -1,0 +1,28 @@
+.reaction-options {
+  top: -50px;
+  left: 0;
+  white-space: nowrap;
+}
+/*============================= HOME =))) ====================*/
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* đẩy 2 nút về 2 phía */
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.share-button {
+  padding: 6px 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.share-button:hover {
+  background-color: #0056b3;
+}

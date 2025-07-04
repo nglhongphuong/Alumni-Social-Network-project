@@ -1,2 +1,2 @@
-# Alumni-Social-Network-project
+# Alumni-Social-Network
 Final Project – Java Web Development

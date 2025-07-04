@@ -1,0 +1,122 @@
+.gemini-main {
+    flex: 1;
+    min-height: 100vh;
+    padding-bottom: 15vh;
+    position: relative;
+    color: #f5f5f5;
+    background-color: #121212;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 22px;
+    padding: 10px;
+    color: #e0e0e0;
+}
+
+.main-nav img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 5px;
+}
+
+.cards-gemini {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.card-gemini {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s;
+    cursor: pointer;
+    color: #e0e0e0;
+}
+
+.card-gemini:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.card-gemini i {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.main-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+.main-container .greet {
+    margin: 1px 0px;
+    font-size: 30px;
+    padding: 20px;
+    font-weight: 500;
+    color: #fafafa;
+}
+
+.main-bottom {
+    padding: 1rem 2rem;
+    border-top: 1px solid #333;
+    background-color: #1e1e1e;
+}
+
+.search-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #444;
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    background-color: #2a2a2a;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    font-size: 1rem;
+    padding: 0.5rem;
+    color: #f0f0f0;
+}
+
+.search-icons i {
+    font-size: 1.2rem;
+    margin-left: 0.75rem;
+    color: #bbb;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.search-icons i:hover {
+    color: #1a73e8;
+}
+
+.bottom-info {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #aaa;
+    text-align: center;
+}
+
+.chat-history {
+  background-color: #1e1e1e;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+  min-height: 300px;
+  max-height: 300px;
+  scroll-behavior: smooth;  /* <-- thêm dòng này */
+}

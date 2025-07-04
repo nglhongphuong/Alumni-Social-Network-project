@@ -1,0 +1,95 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Tạo bài viết</title>
+    <th:block th:replace="base :: styles"></th:block>
+</head>
+
+<body>
+    <div th:replace="base :: header"></div>
+    <main class="container">
+        <h1 style="text-align: center">Cập nhập user</h1>
+        <form method="post" th:action="@{/user/update-user}" th:object="${user}" enctype="multipart/form-data">
+
+            <div class="mb-3 mt-3">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="name" />
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" th:field="*{username}" placeholder="username" />
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" th:field="*{password}" placeholder="password"/>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="bio">Bio</label>
+                <input type="text" class="form-control" id="bio" th:field="*{bio}" placeholder="bio" />
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="birthday">Birthday</label>
+                <input type="date" class="form-control" id="birthday" th:field="*{birthday}" />
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="content">Avatar</label>
+                <input type="file" class="form-control" th:field="*{avatar}"  />
+                <img th:src="${user.avatar}" width="200" th:if="user.id != null" />
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="content">Cover Photo</label>
+                <input type="file" class="form-control" th:field="*{coverPhoto}"  />
+                <img th:src="${user.coverPhoto}" width="200" th:if="user.id != null" />
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="gender">Gender</label>
+                <select class="form-select" id="gender" th:field="*{gender}">
+                    <option th:each="m : ${gender}"
+                            th:value="${m}" 
+                            th:text="${m.displayName}">gender</option>
+                </select>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="isActive">IsActive</label>
+                <select class="form-select" th:field="*{isActive}">
+                    <option th:value="true">Active</option>
+                    <option th:value="false">inActive</option>
+                </select>
+            </div>
+
+            <div class="mb-3 mt-3">
+                <label for="role">Role</label>
+                <select class="form-select" id="role" th:field="*{role}">
+                    <option th:each="m : ${role}"
+                            th:value="${m}" 
+                            th:text="${m.displayName}">role</option>
+                </select>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="studentCode">StudentCode (IF ROLE IS ALUMNI)</label>
+                <input type="text" class="form-control" id="studentCode" th:field="*{studentCode}" placeholder="studentCode" />
+            </div>
+
+            <div class="mb-3 mt-3">
+                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{avatar}" />
+                <input type="hidden" th:field="*{coverPhoto}" />
+                 <input type="hidden" th:field="*{password}" />
+
+                <button class="btn btn-info">
+                    <span th:if="${user.id == null}">Thêm người dùng</span>
+                    <span th:unless="${user.id == null}">Cập nhật người dùng</span>
+                </button>
+            </div>
+        </form>
+    </main>
+    <div th:replace="base :: footer"></div>
+</body>
+</html>
+

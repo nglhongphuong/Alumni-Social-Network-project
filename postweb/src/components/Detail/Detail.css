@@ -1,0 +1,117 @@
+.detail {
+  flex: 1;
+    overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+
+  .user {
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border-bottom: 1px solid #dddddd35;
+
+    img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .option {
+      .title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        span {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-weight: 500;
+          font-size: 16px;
+        }
+
+        .icon {
+          width: 30px;
+          height: 30px;
+          background-color: rgba(17, 25, 40, 0.3);
+          padding: 7px;
+          border-radius: 50%;
+          cursor: pointer;
+          color: white;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: rgba(17, 25, 40, 0.6);
+          }
+        }
+      }
+
+      .photos {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .photoItem {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          .photoDetail {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 5px;
+              object-fit: cover;
+            }
+
+            span {
+              font-size: 14px;
+              color: #333;
+            }
+          }
+
+          .photoDownload {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            color: #555;
+            transition: color 0.3s ease;
+
+            &:hover {
+              color: #000;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #cc3333;
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #a02a2a;
+    }
+  }
+}

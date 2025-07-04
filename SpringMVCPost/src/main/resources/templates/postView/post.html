@@ -1,0 +1,162 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý bài viết</title>
+    <th:block th:replace="base :: styles"></th:block>
+</head>
+<body>
+    <div th:replace="base :: header"></div>
+    <main class="container">
+        <h1 style="text-align: center;">Quản lý bài viết</h1>
+        <main class="container">
+            <form th:action="@{/post/}" class="p-3 bg-light rounded shadow-sm">
+                <div class="row g-2 align-items-end">
+                    <!-- Tìm theo nội dung (content) -->
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Từ khóa nội dung..." name="content">
+                    </div>
+                    <!-- Order -->
+                    <div class="col-md-2">
+                        <select class="form-select" name="order">
+                            <option value="desc">Mới nhất</option>
+                            <option value="asc">Cũ nhất</option>
+                        </select>
+                    </div>
+
+                    <!-- Từ ngày -->
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" name="startDate">
+                    </div>
+
+                    <!-- Đến ngày -->
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" name="endDate">
+                    </div>
+                </div>
+
+                <div class="row mt-2 g-2 align-items-end">
+                    <!-- Tìm theo username -->
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Tìm username ..." name="username">
+                    </div>
+
+                    <!-- Nút hành động -->
+                    <div class="col-md-6 text-end">
+                        <button type="submit" class="btn btn-primary me-2">Tìm kiếm</button>
+                        <a th:href="@{/post/createPost}" class="btn btn-success">+ Thêm bài viết mới</a>
+                    </div>
+                </div>
+
+            </form>
+
+            <table class="table table-bordered mt-3 align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Hình ảnh</th>
+                        <th>Nội dung</th>
+                        <th>Người đăng</th>
+                        <th>Ngày tạo</th>
+                        <th>Ngày cập nhật</th>
+                        <th>Trạng thái</th>
+                        <th>Chế độ</th>
+                        <th></th>
+                        <th>Comment</th>
+                        <th>Reaction</th>
+                        <th> </th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="p, iterStat : ${post}">
+
+                        <td th:text="${iterStat.index + 1}">1</td>
+
+                        <!-- Hình ảnh -->
+                        <td>
+                            <img th:src="${p.image}" wide= "200" alt="Ảnh bài viết" style="width: 80px; height: auto; border-radius: 8px;" />
+                        </td>
+                        <!-- Nội dung -->
+
+                        <td th:text="${p.content}" class="text-start">Nội dung bài viết</td>
+
+                        <!-- Người đăng -->
+                        <td th:text="${p.userId != null ? p.userId.username : 'Ẩn danh'}">Tên người đăng</td>
+
+                        <!-- Ngày tạo -->
+                        <td th:text="${p.createdAt}">01/01/2024</td>
+
+                        <!-- Ngày cập nhật -->
+                        <td th:text="${p.updatedAt}">02/01/2024</td>
+
+                        <!-- Trạng thái bình luận -->
+                        <td>
+                            <span class="badge bg-secondary" th:if="${p.isCommentLocked}">Khóa</span>
+                            <span class="badge bg-success" th:if="${!p.isCommentLocked}">Mở</span>
+                        </td>
+                        <!-- Chế độ hiển thị -->
+                        <td th:text="${p.visibility}"></td>
+                        
+                        <!-- delete/xoa -->
+                        <td>
+                            <div class="d-flex flex-column gap-2">
+                                
+                                <a th:href="@{'/post/' + ${p.id}}"  class="btn btn-info">Update</a>
+                               
+                                <a th:href="@{/post/delete(id=${p.id})}" th:onclick="return confirm('Bạn có muốn xóa ?')" class="btn btn-danger">Delete</a>
+                            </div>
+                        </td>
+                        <!-- Số bình luận -->
+
+                        <td>
+                            <span th:text="${countComments[p.id]}">0</span>
+                        </td>
+
+                        <td>
+                            <span th:text="${countReactions[p.id]}">0</span>
+                        </td>
+
+                        <td>
+                            <a th:href="@{/post/{id}/detail(id=${p.id})}"> 
+                                <button type="button" class="btn btn-info"> Xem chi tiết </button> 
+                            </a>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </main>
+<!--   `${endpoint}/${id}`-->
+    <div th:replace="base :: footer"></div>
+<!--                <script th:src="@{/js/main.js}"></script>-->
+ <script>
+//        function deletePost(endpoint, id) {
+//    if (confirm("Bạn có muốn xóa?") === true) {
+//        const fullUrl = `${endpoint}/${id}`;
+//        console.log("Calling:", fullUrl); // ✅ log URL
+//        
+//        fetch(fullUrl, {
+//            method: "DELETE",
+//            credentials: 'include'
+//        })
+//        .then(res => {
+//            if (res.status === 204) {
+//                alert("Delete Successful!");
+//                location.reload();
+//            } else {
+//                alert("Error system!");
+//            }
+//        })
+//        .catch(err => {
+//            console.error("Fetch failed:", err); // ✅ log lỗi nếu fail hoàn toàn
+//            alert("Fetch error!");
+//        });
+//    }
+//}
+
+</script>
+
+</body>
+</html>

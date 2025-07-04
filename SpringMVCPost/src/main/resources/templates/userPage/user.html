@@ -1,0 +1,112 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Quản lý Người Dùng</title>
+    <th:block th:replace="base :: styles"></th:block>
+</head>
+<body>
+    <div th:replace="base :: header"></div>
+    <main class="container">
+        <h1 style="text-align: center;">Quản lý người dùng</h1>
+        <main class="container">
+            <form th:action="@{/user/}" class="p-3 bg-light rounded shadow-sm">
+                <div class="row g-2 align-items-end mb-3">
+                    <!-- Lọc theo username -->
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="Tìm theo username..." name="username" th:value="${param.username}">
+                    </div>
+                    <!-- Lọc theo role -->
+                    <div class="col-md-3">
+                        <select class="form-select" name="role">
+                            <option value="">-- Tất cả vai trò --</option>
+                            <option value="admin" th:selected="${param.role == 'ROLE_ADMIN'}">Admin</option>
+                            <option value="lecturer" th:selected="${param.role == 'ROLE_LECTURER'}">Lecturer</option>
+                            <option value="alumni" th:selected="${param.role == 'ROLE_ALUMNI'}">Alumni</option>
+                        </select>
+                    </div>
+                    <!-- Sắp xếp theo ngày -->
+                    <div class="col-md-2">
+                        <select class="form-select" name="order">
+                            <option value="desc" th:selected="${param.order == 'desc'}">Mới nhất</option>
+                            <option value="asc" th:selected="${param.order == 'asc'}">Cũ nhất</option>
+                        </select>
+                    </div>
+                    <!-- Ngày bắt đầu -->
+                    <div class="col-md-1">
+                        <input type="date" class="form-control" name="startDate" th:value="${param.startDate}">
+                    </div>
+                    <!-- Ngày kết thúc -->
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" name="endDate" th:value="${param.endDate}">
+                    </div>
+                </div>
+
+                <!-- Hàng chứa 2 nút -->
+                <div class="row">
+                    <div class="col d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary me-2">Tìm kiếm</button>
+                        <a th:href="@{/user/createUser}" class="btn btn-success">+ Thêm User</a>
+                    </div>
+                </div>
+            </form>
+
+
+            <table class="table table-bordered mt-3 align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Ảnh đại diện</th>
+                        <th>Username</th>
+                        <th>Họ tên</th>
+                        <th>Vai trò</th>
+                        <th>Ngày tạo</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="u, iterStat : ${user}">
+                        <td th:text="${iterStat.index + 1}">1</td>
+                        <td>
+                            <img th:src="@{${u.avatar}}" alt="Avatar" style="width: 60px; height: auto; border-radius: 50%;" />
+                        </td>
+                        <td th:text="${u.username}">Username</td>
+                        <td th:text="${u.name}">Họ tên</td>
+                        <td th:text="${u.role}">Vai trò</td>
+                        <td th:text="${#dates.format(u.createdAt, 'dd/MM/yyyy')}">01/01/2024</td>
+                        <td>
+                            <span class="badge bg-success" th:if="${u.isActive}">Đang hoạt động</span>
+                            <span class="badge bg-secondary" th:if="${!u.isActive}">Đã khóa</span>
+                        </td>
+                        <td>
+                             <div class="d-flex flex-column gap-2">
+                                <a th:href="@{'/user/' + ${u.id}}"  class="btn btn-info">Update</a>
+                                <button th:onclick="'deleteUser(\'' + @{/api/user} + '\', ' + ${u.id} + ')'" class="btn btn-danger">Delete</button>
+                   
+                             </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </main>
+    <div th:replace="base :: footer"></div>
+    <script>
+        function deleteUser(endpoint, id){
+    if(confirm("Bạn có muốn xóa?") === true){
+            fetch(`${endpoint}/${id}`,{
+        method: "delete"
+    }).then(res => {
+        if(res.status === 204) {
+            alert("Delete Successful!");
+            location.reload();
+        } else{
+            alert("Error system!");
+        }
+    });
+    }
+}
+        
+    </script>
+</body>
+</html>

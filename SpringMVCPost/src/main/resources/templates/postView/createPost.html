@@ -1,0 +1,62 @@
+
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Tạo bài viết</title>
+    <th:block th:replace="base :: styles"></th:block>
+</head>
+<body>
+    <div th:replace="base :: header"></div>
+    <main class="container">
+        <h1 style="text-align: center">Tạo bài viết</h1>
+        <form method="post" th:action="@{/post/add-post}" th:object="${posts}" enctype="multipart/form-data">
+            <div class="mb-3 mt-3">
+                <label for="content">Nội dung</label>
+                <textarea class="form-control" id="content" th:field="*{content}" placeholder="Nội dung bài viết" rows="4"></textarea>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="content">Ảnh sản phẩm</label>
+                <input type="file" class="form-control" th:field="*{file}"  />
+                <img th:src="${posts.image}" width="200" th:if="posts.id != null" />
+            </div>
+
+
+            <div class="mb-3 mt-3">
+                <label for="visibility">Trạng thái bài đăng</label>
+                <select class="form-select" id="visibility" th:field="*{visibility}">
+                    <option th:each="m : ${visibility}"
+                            th:value="${m}" 
+                            th:text="${m.displayName}">visibility</option>
+                </select>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="visibility">Trạng thái bình luận</label>
+                <select class="form-select" th:field="*{isCommentLocked}">
+                    <option th:value="false">Mở bình luận</option>
+                    <option th:value="true">Khóa bình luận</option>
+                </select>
+            </div>
+            <div class="mb-3 mt-3">
+                <label for="visibility">Người dùng</label>
+                <select class="form-select" id="user" th:field="*{userId}">
+                    <option th:each="m : ${user}"
+                            th:value="${m.id}" 
+                            th:text="${m.username}">user</option>
+                </select>
+            </div>
+
+
+            <div class="mb-3 mt-3">
+                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{image}" />
+
+                <button class="btn btn-info">
+                    <span th:if="${posts.id == null}">Thêm bài viết</span>
+                    <span th:unless="${posts.id == null}">Cập nhật bài viết</span>
+                </button>
+            </div>
+        </form>
+    </main>
+    <div th:replace="base :: footer"></div>
+</body>
+</html>

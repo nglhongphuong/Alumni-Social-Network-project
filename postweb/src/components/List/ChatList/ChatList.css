@@ -1,0 +1,92 @@
+.chatList {
+  padding: 10px;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* khoảng cách giữa search và nút + */
+  max-width: 400px;
+}
+
+.searchBar {
+  flex-grow: 1;
+  /* chiếm hết chỗ còn lại */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #f0f0f0;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.searchBar i {
+  font-size: 18px;
+  color: #888;
+}
+
+.searchBar input {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+}
+
+.addChatBtn {
+  background-color: #007bff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addChatBtn:hover {
+  background-color: #0056b3;
+}
+
+.addChatBtn i {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  cursor: pointer;
+  border-bottom: 1px solid #dddddd35;
+
+  img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .texts{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    span {
+      font-weight: 500;
+    }
+    p{
+      font-size: 14px;
+      font-weight: 300;
+    }
+  }
+
+}

@@ -1,0 +1,31 @@
+body {
+    padding-top: 50px; 
+}
+
+.custom-navbar {
+  background-color: #222831;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 400px;
+  margin-right: 20px;
+}
+
+.search-input {
+  flex: 1;
+  border-radius: 20px;
+  padding-left: 15px;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+}
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
