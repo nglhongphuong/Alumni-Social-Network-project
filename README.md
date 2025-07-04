@@ -73,12 +73,12 @@ This project was developed as the final assignment for the *Java Web Development
 
 1. **Clone the project to your machine**
 
-2. Open the `post_db.sql` file and import it into your database system to initialize the database (MySQL) 
+2. Open the `postdb_sql.sql` file and import it into your database system to initialize the database (MySQL) 
 
 3. Default admin login credentials:  
    **2251010077phuong@ou.edu.vn / 123456**
 
-4. Open the project in **NetBeans** and run the SpringMVC source code:  
+4. Open the project in **NetBeans** and run the `SpringMVCPost` source code:  
    - Make sure to update the database password in `database.properties`  
    - Click the **Run Project** button in NetBeans  
      ![imgae](https://github.com/nglhongphuong/Alumni-Social-Network-project/blob/main/img/run.png)
