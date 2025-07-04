@@ -7,7 +7,7 @@ This project was developed as the final assignment for the *Java Web Development
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 - [1. Technologies Used](#1-technologies-used)
 - [2. Project Topic](#2-project-topic)
@@ -17,6 +17,7 @@ This project was developed as the final assignment for the *Java Web Development
 - [6. Client Module Demo](#6-client-module-demo-reactjs-frontend)
 - [7. Installation](#7-installation)
 - [Source Code](#-source-code)
+- [9. Learning Resources](#9-learning-resources)
 
 ---
 
@@ -94,3 +95,19 @@ This project was developed as the final assignment for the *Java Web Development
 ## 🔗 Source Code
 
 GitHub Repository: [https://github.com/nglhongphuong/Alumni-Social-Network-project](https://github.com/nglhongphuong/Alumni-Social-Network-project)
+
+---
+
+## 9. Learning Resources
+
+To support the development of this project, the following resources were used for learning and integration:
+
+- **Firebase Realtime Database**:  
+  [Fireship – Firebase Realtime Database](https://www.youtube.com/watch?v=domt_Sx-wTY&t=6842s)
+
+- **Gemini AI Integration (Gemini 3.5)**:
+  - [Gemini for Developers – Official Guide](https://ai.google.dev/gemini-api/docs?hl=en)
+  - [Video](https://www.youtube.com/watch?v=nCEsIbfoLJM&t=800s)
+
+> These resources were essential during the research and implementation phases of the project.
+
