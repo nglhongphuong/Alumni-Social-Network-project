@@ -71,23 +71,25 @@ This project was developed as the final assignment for the *Java Web Development
 
 ## 7. Installation
 
-1. **Clone dự án về**
-2. Mở file `post_db.sql` để tạo database ban đầu (mật khẩu sẽ được cung cấp tại đường dẫn bên dưới)
-3. Tài khoản đăng nhập hệ quản trị mặc định:  
+1. **Clone the project to your machine**
+
+2. Open the `post_db.sql` file and import it into your database system to initialize the database  
+   ![imgae](https://github.com/nglhongphuong/Alumni-Social-Network-project/blob/main/img/run.png)
+
+3. Default admin login credentials:  
    **2251010077phuong@ou.edu.vn / 123456**
 
-4. Mở NetBeans và chạy source code SpringMVC:  
-   - Đảm bảo đã đổi mật khẩu database trong `database.properties`  
-   - Nhấn nút chạy trong NetBeans  
-   _(*Ảnh minh họa sẽ được thêm sau)_
+4. Open the project in **NetBeans** and run the SpringMVC source code:  
+   - Make sure to update the database password in `database.properties`  
+   - Click the **Run Project** button in NetBeans  
+   _(*Screenshot will be added later)_
 
-5. Dùng thư mục `postWeb` để chạy ReactJS client:  
+5. Navigate to the `postWeb` folder to run the ReactJS client:  
    ```bash
    cd postWeb
    yarn install
    yarn start
    ```
-
 ---
 
 ## 🔗 Source Code
