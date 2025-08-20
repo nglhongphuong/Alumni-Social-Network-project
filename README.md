@@ -33,7 +33,7 @@ This project was developed as the final assignment for the *Java Web Development
   - Frontend developed using ReactJS
   - Integrated with Google Mail API to send email notifications
   - Real-time messaging via Firebase Realtime Database
-  - Gemini 22.5 integrated as a virtual assistant
+  - Gemini 2.5 integrated as a virtual assistant
 
 - **API Testing**:
   - Postman Collection: [Test APIs here](https://www.postman.com/demo-api-3306/phuong-11-testapi/collection/n62hzyc/social-post)
